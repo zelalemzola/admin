@@ -1,22 +1,18 @@
-"use client"
+import Link from "next/link";
+import { LucideIcon } from "lucide-react";
 
-import Link from "next/link"
-import { LucideIcon } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { usePathname } from "next/navigation"
-
-
+} from "@/components/ui/tooltip";
+import { usePathname } from "next/navigation";
 
 export function Nav({ links, isCollapsed }) {
-  const pathname=usePathname()
+  const pathname = usePathname();
   return (
     <div
       data-collapsed={isCollapsed}
@@ -24,39 +20,39 @@ export function Nav({ links, isCollapsed }) {
     >
       <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
         {links.map((link, index) =>
-          isCollapsed ? (
-            <TooltipProvider>
-            <Tooltip key={index} delayDuration={0}>
-              <TooltipTrigger asChild>
-                <Link
-                  href={link.href}
-                  className={cn(
-                    buttonVariants({ variant: link.href === pathname ?'default':'ghost', size: "icon" }),
-                    "h-10 w-10",
-                    link.variant === "default" &&
-                      "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+          isCollapsed? (
+            <TooltipProvider key={link.title}>
+              <Tooltip key={index} delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      buttonVariants({ variant: link.href === pathname? "default" : "ghost", size: "icon" }),
+                      "h-10 w-10",
+                      link.variant === "default" &&
+                        "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white"
+                    )}
+                  >
+                    <link.icon className="h-5 w-5" />
+                    <span className="sr-only">{link.title}</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right" className="flex items-center gap-4">
+                  {link.title}
+                  {link.label && (
+                    <span className="ml-auto text-muted-foreground">
+                      {link.label}
+                    </span>
                   )}
-                >
-                  <link.icon className="h-5 w-5" />
-                  <span className="sr-only">{link.title}</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right" className="flex items-center gap-4">
-                {link.title}
-                {link.label && (
-                  <span className="ml-auto text-muted-foreground">
-                    {link.label}
-                  </span>
-                )}
-              </TooltipContent>
-            </Tooltip>
+                </TooltipContent>
+              </Tooltip>
             </TooltipProvider>
           ) : (
             <Link
               key={index}
               href={link.href}
               className={cn(
-                buttonVariants({ variant: link.href === pathname ?'default':'ghost', size: "sm" }),
+                buttonVariants({ variant: link.href === pathname? "default" : "ghost", size: "sm" }),
                 link.variant === "default" &&
                   "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                 "justify-start"
@@ -80,5 +76,5 @@ export function Nav({ links, isCollapsed }) {
         )}
       </nav>
     </div>
-  )
+  );
 }
